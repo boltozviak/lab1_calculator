@@ -35,21 +35,21 @@ class Calculator():
 
     def _division(self, x: Union[int,float], y: Union[int,float]) -> float:
         if y == 0:
-            raise ValueError('Division by zero')
+            raise ValueError(': division by zero')
         return x / y
 
     def _floor_division(self, x: int, y: int) -> int:
         if not isinstance(x, int) or not isinstance(y, int):
-            raise ValueError("Operator // requires integers")
+            raise ValueError(": operator // requires integers")
         if y == 0:
-            raise ValueError("Division by zero")
+            raise ValueError(": division by zero")
         return x // y
 
     def _mod_division(self, x: int, y: int) -> int:
         if not isinstance(x, int) or not isinstance(y, int):
-            raise ValueError("Operator % requires integers")
+            raise ValueError(": operator % requires integers")
         if y == 0:
-            raise ValueError("Division by zero")
+            raise ValueError(": division by zero")
         return x % y
 
     def parser(self, expression: str) -> List[Token]:
@@ -64,7 +64,7 @@ class Calculator():
                 i += 1
                 continue
 
-            if symbol.isdigit():
+            if symbol.isdigit() or (symbol == '.' and i + 1 < n and expression[i+1].isdigit):
                 j = i
                 has_dot = False
 
@@ -78,6 +78,8 @@ class Calculator():
                         break
 
                 num_str = expression[i:j]
+                if len(num_str) > 10:
+                    raise ParsingError('Number has more than 10 digits',f'{i}:{j}','Invalid number format')
                 try:
                     if has_dot:
                         token_value = float(num_str)
@@ -92,12 +94,13 @@ class Calculator():
 
             if symbol in '+-*/%()':
                 if symbol in '+-':
-                    if not tokens or tokens[-1] == '(':
+                    if not tokens or tokens[-1].value == '(':
                         if symbol == '+':
                             tokens.append(Token('$', i))
                         elif symbol == '-':
                             tokens.append(Token('~', i))
-                    elif isinstance(tokens[-1], str) and tokens[-1] in self.operators and tokens[-1] != ')':
+                    elif isinstance(tokens[-1].value, str) and tokens[-1].value in self.operators and \
+                          tokens[-1].value != ')':
                         raise ParsingError(f"Incorrect operator sequence '{tokens[-1].value}' followed by '{symbol}'", i)
                     else:
                         tokens.append(Token(symbol, i))
@@ -142,11 +145,12 @@ class Calculator():
                 _, priority, associativity, _ = op_info
 
                 while stack and stack[-1].value != '(':
-                    top_op = stack[-1]
-                    if top_op not in self.operators:
+                    top_token = stack[-1]
+                    top_op_info = self.operators.get(top_token.value)
+                    if top_op_info is None:
                         break
 
-                    top_priority = self.operators[top_op][1]
+                    top_priority = top_op_info[1]
 
                     if (associativity == 'left' and priority <= top_priority) or \
                         (associativity == 'right' and priority < top_priority):
@@ -159,7 +163,7 @@ class Calculator():
         while stack:
             op_token = stack.pop()
             if op_token.value == '(':
-                raise ParsingError(token.value,token.position,"Unbalanced brackets")
+                raise ParsingError(op_token.value, op_token.position, "Unbalanced brackets")
             output.append(op_token)
 
         return output
@@ -175,20 +179,20 @@ class Calculator():
 
                 if is_unary:
                     if len(stack) < 1:
-                        raise ValueError(f'Not enough operands for a unary operator {token.position}')
+                        raise ParsingError(f'Not enough operands for a unary operator {token.value}', token.position, 'Calculation')
                     operand = stack.pop()
                     result = op_func(operand)
                     stack.append(result)
                 else:
                     if len(stack) < 2:
-                        raise ValueError(f"Not enough operands for a binary operator at position {token.position}")
+                        raise ParsingError(f'Not enough operands for a binary operator {token.value}', token.position, 'Calculation')
                     right = stack.pop()
                     left = stack.pop()
                     result = op_func(left, right)
                     stack.append(result)
 
         if len(stack) != 1:
-            raise ValueError("Invalid expression - too many operators")
+            raise ParsingError("Too many operands",None,'Invalid expression')
 
         return stack[0]
 
@@ -229,7 +233,7 @@ def main():
             result = calculator.calculate(expression)
 
             if isinstance(result, float):
-                if result.is_integer:
+                if result.is_integer():
                     print(f"Result: {int(result)}")
                 else:
                     print(f"Result: {result}")
