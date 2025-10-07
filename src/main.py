@@ -131,13 +131,13 @@ class Calculator():
                 while stack and stack[-1].value != '(':
                     output.append(stack.pop())
                 if not stack:
-                    raise ParsingError('Unbalanced brackets', token.position)
+                    raise ParsingError(token.value,token.position,'Unbalanced brackets')
                 stack.pop()
 
             else:
                 op_info = self.operators.get(token.value)
                 if not op_info:
-                    raise ParsingError(f'\n{token.value}', token.position, 'Unknown operator')
+                    raise ParsingError(token.value, token.position, 'Unknown operator')
 
                 _, priority, associativity, _ = op_info
 
@@ -159,7 +159,7 @@ class Calculator():
         while stack:
             op_token = stack.pop()
             if op_token.value == '(':
-                raise ParsingError("Unbalanced brackets", op_token.position)
+                raise ParsingError(token.value,token.position,"Unbalanced brackets")
             output.append(op_token)
 
         return output
