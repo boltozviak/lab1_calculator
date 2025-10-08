@@ -4,7 +4,7 @@ An expression calculator that parses an infix arithmetic expression,
 converts it to Reverse Poland Notation (RPN) using the shunting-yard algorithm
 and evaluate a result
 ### features
-- +,-,*,/,**(right-associativity), //(requires integers), %(requires integers), ()
++, -, *, /, ** (right-associativity), // (requires integers), % (requires integers), ()
 
 ## Run
 ```powershell
