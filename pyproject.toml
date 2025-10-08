@@ -8,3 +8,7 @@ dependencies = [
     "pre-commit>=4.3.0",
     "pytest>=8.4.2",
 ]
+
+[tool.mypy]
+python_version = "3.12"
+ignore_missing_imports = true

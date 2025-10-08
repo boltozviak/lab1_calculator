@@ -53,6 +53,16 @@ class Calculator():
         return x % y
 
     def parser(self, expression: str) -> List[Token]:
+        """
+        Tokenizes an infix expression into a list of tokens
+
+        Arguments:
+            expression (str): raw infix expression
+
+        Return:
+            List[Token]: a sequence of tokens representing numbers, operators and brackets
+        """
+
         tokens = []
         n = len(expression)
         i = 0
@@ -64,7 +74,7 @@ class Calculator():
                 i += 1
                 continue
 
-            if symbol.isdigit() or (symbol == '.' and i + 1 < n and expression[i+1].isdigit):
+            if symbol.isdigit() or (symbol == '.' and i + 1 < n and expression[i+1].isdigit()):
                 j = i
                 has_dot = False
 
@@ -79,7 +89,7 @@ class Calculator():
 
                 num_str = expression[i:j]
                 if len(num_str) > 10:
-                    raise ParsingError('Number has more than 10 digits',f'{i}:{j}','Invalid number format')
+                    raise ParsingError('Number has more than 10 digits',i,'Invalid number format')
                 try:
                     if has_dot:
                         token_value = float(num_str)
@@ -122,6 +132,17 @@ class Calculator():
         return tokens
 
     def shunting_yard(self, tokens: List[Token]) -> List[Token]:
+        """
+        Converts a list of infix tokens to Reverse Polish Notation (RPN)
+        using the shunting-yard algorithm
+
+        Arguments:
+            tokens (List[Token]): infix tokens
+
+        Return:
+            List[Token]: tokens in RPN order
+        """
+
         output = []
         stack = []
 
@@ -169,6 +190,16 @@ class Calculator():
         return output
 
     def evaluate_of_rpn(self, rpn: List[Token]) -> Union[int, float]:
+        """
+        Evaluates an expression given in Reverse Polish Notation (RPN).
+
+        Parameters:
+            rpn (List[Token]): tokens in RPN order.
+
+        Returns:
+            int | float: Computed result.
+        """
+
         stack = []
 
         for token in rpn:
@@ -197,6 +228,16 @@ class Calculator():
         return stack[0]
 
     def calculate(self, expression: str) -> Union[int, float]:
+        """
+        Parses, compiles to RPN, and evaluates an infix arithmetic expression.
+
+        Parameters:
+            expression (str): raw infix expression.
+
+        Returns:
+            int | float: computed result.
+        """
+
         try:
             tokens = self.parser(expression)
             if not tokens:

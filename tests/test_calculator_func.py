@@ -1,6 +1,4 @@
 import pytest
-import sys, pathlib
-sys.path.append(str(pathlib.Path(__file__).resolve().parents[1]))
 from src.main import Calculator, ParsingError
 
 
@@ -34,7 +32,7 @@ from src.main import Calculator, ParsingError
 
     )
 )
-def test_calculate_ok(input, expected_result):
+def test_calculate_func(input, expected_result):
     calculator = Calculator()
     assert calculator.calculate(input) == expected_result
 
@@ -42,7 +40,7 @@ def test_calculate_ok(input, expected_result):
     ('expression', 'expected_exception'),
     (
         pytest.param('2.', 'Unknown symbol error: . at position 1'),
-        pytest.param('111111111111', 'Invalid number format error: Number has more than 10 digits at position 0:12'),
+        pytest.param('111111111111', 'Invalid number format error: Number has more than 10 digits at position 0'),
         pytest.param('2..2', 'Invalid number format error:  at position 1'),
         pytest.param('1++2', "Parsing error: Incorrect operator sequence '+' followed by '+' at position 2"),
         pytest.param('1-*', 'Calculation error: Not enough operands for a binary operator * at position 2'),
