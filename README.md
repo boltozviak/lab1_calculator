@@ -1,10 +1,12 @@
 # CALCULATOR
 # MAI - Python programming - LAB1
 
+## structure
+
 ## Launch
 ```powershell
 python -m src.main
-python -m pytest -q
+#I don't know how run tests - try "pytest -q"
 ```
 ## Assumptions
 - 0 ** 0 = 1
