@@ -1,4 +1,4 @@
-from typing import Any, List, Union
+from typing import Any
 
 class ParsingError(Exception):
 
@@ -19,6 +19,14 @@ class Token():
         self.position = position
 
 class Calculator():
+    """
+    An expression calculator that parses an infix arithmetic expression,
+    converts it to Reverse Poland Notation (RPN) using the shunting-yard algorithm
+    and evaluate a result
+
+    """
+
+
     def __init__(self):
 
         self.operators = {
@@ -33,7 +41,7 @@ class Calculator():
             '$': (lambda x: x, 4, 'left', True)
         }
 
-    def _division(self, x: Union[int,float], y: Union[int,float]) -> float:
+    def _division(self, x: int | float, y: int | float) -> float:
         if y == 0:
             raise ValueError('Division by zero')
         return x / y
@@ -52,7 +60,7 @@ class Calculator():
             raise ValueError("Division by zero")
         return x % y
 
-    def parser(self, expression: str) -> List[Token]:
+    def parser(self, expression: str) -> list[Token]:
         """
         Tokenizes an infix expression into a list of tokens
 
@@ -61,6 +69,12 @@ class Calculator():
 
         Return:
             List[Token]: a sequence of tokens representing numbers, operators and brackets
+
+        Exceptions:
+            ParsingError:
+                - Unknown symbol
+                - Invalid number format
+                - Incorrect operator sequence
         """
 
         tokens = []
@@ -131,7 +145,7 @@ class Calculator():
 
         return tokens
 
-    def shunting_yard(self, tokens: List[Token]) -> List[Token]:
+    def shunting_yard(self, tokens: list[Token]) -> list[Token]:
         """
         Converts a list of infix tokens to Reverse Polish Notation (RPN)
         using the shunting-yard algorithm
@@ -141,6 +155,11 @@ class Calculator():
 
         Return:
             List[Token]: tokens in RPN order
+
+        Exceptions:
+            ParsingError:
+                - Unbalanced brackets
+                - Unknown operator
         """
 
         output = []
@@ -189,7 +208,7 @@ class Calculator():
 
         return output
 
-    def evaluate_of_rpn(self, rpn: List[Token]) -> Union[int, float]:
+    def evaluate_of_rpn(self, rpn: list[Token]) -> int | float:
         """
         Evaluates an expression given in Reverse Polish Notation (RPN).
 
@@ -198,6 +217,13 @@ class Calculator():
 
         Returns:
             int | float: Computed result.
+
+        Exceptions:
+            ParsingError:
+                - Not enough operands for operation
+                - If final stack contain more than one result
+            ValueError:
+                - Arithemtic errors inside operators
         """
 
         stack = []
@@ -227,7 +253,7 @@ class Calculator():
 
         return stack[0]
 
-    def calculate(self, expression: str) -> Union[int, float]:
+    def calculate(self, expression: str) -> int | float:
         """
         Parses, compiles to RPN, and evaluates an infix arithmetic expression.
 
@@ -236,6 +262,11 @@ class Calculator():
 
         Returns:
             int | float: computed result.
+
+        Exceptions:
+            - Empty expression
+            - Issues during parsing of shunting-yard
+            - Calculation errors
         """
 
         try:
