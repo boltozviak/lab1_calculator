@@ -35,21 +35,21 @@ class Calculator():
 
     def _division(self, x: Union[int,float], y: Union[int,float]) -> float:
         if y == 0:
-            raise ValueError(': division by zero')
+            raise ValueError('Division by zero')
         return x / y
 
     def _floor_division(self, x: int, y: int) -> int:
         if not isinstance(x, int) or not isinstance(y, int):
-            raise ValueError(": operator // requires integers")
+            raise ValueError("Operator // requires integers")
         if y == 0:
-            raise ValueError(": division by zero")
+            raise ValueError("Division by zero")
         return x // y
 
     def _mod_division(self, x: int, y: int) -> int:
         if not isinstance(x, int) or not isinstance(y, int):
-            raise ValueError(": operator % requires integers")
+            raise ValueError("Operator % requires integers")
         if y == 0:
-            raise ValueError(": division by zero")
+            raise ValueError("Division by zero")
         return x % y
 
     def parser(self, expression: str) -> List[Token]:
@@ -192,7 +192,7 @@ class Calculator():
                     stack.append(result)
 
         if len(stack) != 1:
-            raise ParsingError("Too many operands",None,'Invalid expression')
+            raise ParsingError("Too many operands", None, 'Invalid expression')
 
         return stack[0]
 
@@ -200,7 +200,7 @@ class Calculator():
         try:
             tokens = self.parser(expression)
             if not tokens:
-                return 0
+                raise ParsingError("Empty expression", 0, 'Invalid expression')
 
             rpn = self.shunting_yard(tokens)
 
@@ -211,7 +211,7 @@ class Calculator():
         except ParsingError:
             raise
         except ValueError as e:
-            raise ValueError(f"Calculation error {e}")
+            raise ParsingError(f"{e}", 0, 'Calculation')
 
 def main():
     calculator = Calculator()
@@ -226,9 +226,6 @@ def main():
             if expression.lower() == 'exit':
                 print('Bye-bye!')
                 break
-
-            if not expression:
-                raise ValueError('Empty expression')
 
             result = calculator.calculate(expression)
 
