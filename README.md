@@ -6,12 +6,18 @@
 python -m src.main
 python -m pytest -q
 ```
-
 ## Assumptions
 - 0 ** 0 = 1
 - The user can write the expression directly in RPN
 - .5 -> 0.5
 - The unary character only works at the beginning of a line or in икфслуеы, otherwise an error occurs
+
+## questions
+- Calculator, ParsingError, Token - Should it be moved to a separate file from main?
+- How add an exception for large powers?
+- Operators - Should it be moved to a constants of class?
+- README - what I should add?
+- PYTHONPATH - how to do it right?(+what do with pytest.ini, .env)
 
 ## References
 - https://habr.com/ru/articles/908062/ - All about shunting-yard
