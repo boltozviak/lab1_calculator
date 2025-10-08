@@ -1,20 +1,25 @@
 # CALCULATOR
-# MAI - Python programming - LAB1
+## MAI - Python programming - LAB1
+An expression calculator that parses an infix arithmetic expression,
+converts it to Reverse Poland Notation (RPN) using the shunting-yard algorithm
+and evaluate a result
+### features
+- +,-,*,/,**(right-associativity), //(requires integers), %(requires integers), ()
 
-## structure
-
-## Launch
+## Run
 ```powershell
 python -m src.main
-#I don't know how run tests - try "pytest -q"
+#I don't know how run tests - I use "pytest -q"
 ```
 ## Assumptions
 - 0 ** 0 = 1
 - The user can write the expression directly in RPN
 - .5 -> 0.5
-- The unary character only works at the beginning of a line or in икфслуеы, otherwise an error occurs
+- The unary character only works at the beginning of a line or in brackets, otherwise an error occurs
+- The unary character is a separate token
+- Number length must be less than 10 digits
 
-## questions
+## Questions for Samir
 - Calculator, ParsingError, Token - Should it be moved to a separate file from main?
 - How add an exception for large powers?
 - Operators - Should it be moved to a constants of class?
