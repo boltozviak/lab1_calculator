@@ -8,7 +8,7 @@ def main():
 
     while True:
         try:
-            expression = input('Enter the expression: ').strip()
+            expression = input('Enter the expression: ')
 
             if expression.lower() == 'exit':
                 print('Bye-bye!')
