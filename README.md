@@ -18,12 +18,11 @@ python -m src.main
 - The unary character only works at the beginning of a line or in brackets, otherwise an error occurs
 - The unary character is a separate token
 - Number length must be less than 10 digits
+- The expression can contain leading zeros
 
 ## Questions for Samir
-- Calculator, ParsingError, Token - Should it be moved to a separate file from main?
-- How add an exception for large powers?
+- Add an exception for large powers
 - Operators - Should it be moved to a constants of class?
-- README - what I should add?
 - PYTHONPATH - how to do it right?(+what do with pytest.ini, .env)
 
 ## References

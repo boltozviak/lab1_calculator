@@ -1,5 +1,5 @@
 import pytest
-from src.main import Calculator, ParsingError
+from src.calculator import Calculator, ParsingError
 
 
 @pytest.mark.parametrize(
