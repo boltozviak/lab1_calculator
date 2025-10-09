@@ -30,15 +30,15 @@ class Calculator():
     def __init__(self):
 
         self.operators = {
-            '+': (lambda x, y: x + y, 1, 'left', False),
-            '-': (lambda x, y: x - y, 1, 'left', False),
-            '*': (lambda x, y: x * y, 2, 'left', False),
-            '/': (self._division, 2, 'left', False),
-            '**': (lambda x, y: x ** y, 5, 'right', False),
-            '//': (self._floor_division, 2, 'left', False),
-            '%': (self._mod_division, 2, 'left', False),
-            '~': (lambda x: -x, 4, 'left', True),
-            '$': (lambda x: x, 4, 'left', True)
+            '+': (lambda x, y: x + y, 1, 'left'),
+            '-': (lambda x, y: x - y, 1, 'left'),
+            '*': (lambda x, y: x * y, 2, 'left'),
+            '/': (self._division, 2, 'left'),
+            '**': (lambda x, y: x ** y, 5, 'right'),
+            '//': (self._floor_division, 2, 'left'),
+            '%': (self._mod_division, 2, 'left'),
+            '~': (lambda x: -x, 4, 'left'),
+            '$': (lambda x: x, 4, 'left')
         }
 
     def _division(self, x: int | float, y: int | float) -> float:
@@ -125,8 +125,7 @@ class Calculator():
                             tokens.append(Token('~', i))
                     elif isinstance(tokens[-1].value, str) and tokens[-1].value in self.operators and \
                           tokens[-1].value != ')':
-                        raise ParsingError(f"Incorrect operator sequence '{tokens[-1].value}'\
-                                            followed by '{symbol}'", i)
+                        raise ParsingError(f"Incorrect operator sequence '{tokens[-1].value}' followed by '{symbol}'", i)
                     else:
                         tokens.append(Token(symbol, i))
                 else:
@@ -183,7 +182,7 @@ class Calculator():
                 if not op_info:
                     raise ParsingError(token.value, token.position, 'Unknown operator')
 
-                _, priority, associativity, _ = op_info
+                _, priority, associativity = op_info
 
                 while stack and stack[-1].value != '(':
                     top_token = stack[-1]
@@ -233,9 +232,9 @@ class Calculator():
             if isinstance(token.value, (int, float)):
                 stack.append(token.value)
             else:
-                op_func, _, _, is_unary = self.operators[token.value]
+                op_func, _, _ = self.operators[token.value]
 
-                if is_unary:
+                if token.value in '$~':
                     if len(stack) < 1:
                         raise ParsingError(f'Not enough operands for a unary operator {token.value}',\
                                             token.position, 'Calculation')
