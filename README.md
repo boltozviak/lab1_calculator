@@ -8,7 +8,7 @@ and evaluate a result
 
 ## Run
 ```powershell
-pip install -r requirements.txt #install dependencies
+uv sync # dependencies
 python -m src.main
 pytest -q
 ```
