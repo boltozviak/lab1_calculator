@@ -8,10 +8,11 @@ and evaluate a result
 
 ## Run
 ```powershell
-pip install -r requirements.txt #isntall dependencies
+pip install -r requirements.txt #install dependencies
 python -m src.main
 pytest -q
 ```
+
 ## Assumptions
 - 0 ** 0 = 1
 - The user can write the expression directly in RPN
