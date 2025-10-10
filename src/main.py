@@ -25,7 +25,7 @@ def main():
                 print(f"Result: {result}")
 
         except (ParsingError, ValueError) as e:
-            print(f"Error: {e}")
+            print(f"{e}")
 
 if __name__ == "__main__":
     main()

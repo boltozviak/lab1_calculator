@@ -60,7 +60,9 @@ def test_calculate_func(input, expected_result):
         pytest.param('5//2.5', 'Calculation error: Operator // requires integers at position 0'),
         pytest.param('5%2.5', 'Calculation error: Operator % requires integers at position 0'),
         pytest.param('(1.5+2.5)//2', 'Calculation error: Operator // requires integers at position 0'),
-        pytest.param('(1+3)/(3-3)', 'Calculation error: Division by zero at position 0')
+        pytest.param('(1+3)/(3-3)', 'Calculation error: Division by zero at position 0'),
+        pytest.param('-2 ** 0.5', 'Calculation error: Negative number under the root at position 0'),
+        pytest.param('2 ** 11111111', 'Calculation error: Too high a power to be raised at position 0'),
 
     )
 )

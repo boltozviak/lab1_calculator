@@ -34,11 +34,11 @@ class Calculator():
             '-': (lambda x, y: x - y, 1, 'left'),
             '*': (lambda x, y: x * y, 2, 'left'),
             '/': (self._division, 2, 'left'),
-            '**': (lambda x, y: x ** y, 5, 'right'),
+            '**': (self._power, 4, 'right'),
             '//': (self._floor_division, 2, 'left'),
             '%': (self._mod_division, 2, 'left'),
-            '~': (lambda x: -x, 4, 'left'),
-            '$': (lambda x: x, 4, 'left')
+            '~': (lambda x: -x, 5, 'left'),
+            '$': (lambda x: x, 5, 'left')
         }
 
     def _division(self, x: int | float, y: int | float) -> float:
@@ -59,6 +59,13 @@ class Calculator():
         if y == 0:
             raise ValueError("Division by zero")
         return x % y
+
+    def _power(self, x: int | float, y: int | float) -> int | float:
+        if x < 0 and isinstance(y, float):
+            raise ValueError('Negative number under the root')
+        if y > 1000:
+            raise ValueError('Too high a power to be raised')
+        return x ** y
 
     def parser(self, expression: str) -> list[Token]:
         """

@@ -8,8 +8,9 @@ and evaluate a result
 
 ## Run
 ```powershell
+pip install -r requirements.txt #isntall dependencies
 python -m src.main
-#I don't know how run tests - I use "pytest -q"
+pytest -q
 ```
 ## Assumptions
 - 0 ** 0 = 1
@@ -19,11 +20,7 @@ python -m src.main
 - The unary character is a separate token
 - Number length must be less than 10 digits
 - The expression can contain leading zeros
-
-## Questions for Samir
-- Add an exception for large powers
-- Operators - Should it be moved to a constants of class?
-- PYTHONPATH - how to do it right?(+what do with pytest.ini, .env)
+- Maximum power - 999
 
 ## References
 - https://habr.com/ru/articles/908062/ - All about shunting-yard
