@@ -3,14 +3,51 @@
 An expression calculator that parses an infix arithmetic expression,
 converts it to Reverse Poland Notation (RPN) using the shunting-yard algorithm
 and evaluate a result
-### features
-+, -, *, /, ** (right-associativity), // (requires integers), % (requires integers), ()
 
-## Run
-```powershell
-uv sync # dependencies
+## Features
+Calculator can works with integer/float numbers and such operators as +, -, *, /, ** (right-associativity), // (requires integers), % (requires integers), (), unary +/-
+
+## How it works
+### Tokenizer
+
+The tokenizer iterates over the expression and passes operators and numbers in the format [value; index] to the 'tokens' list.
+The value is later used for calculations, and the index is used in error descriptions.
+
+### Shunting Yard
+The list of tokens is transformed into a list containing the Reverse Polish Notation of the expression by using the shunting yard algorithm
+- If the token is a number, add it to the result output
+- If the token is operator op1, then:
+- - As long as there is an operator op2 on the top of the stack whose priority is higher than or equal to op1, and if the priorities are equal, op1 is left-associative
+- - - Push op2 from the stack to the output
+- - Push op1 onto the stack
+- If the token is an opening bracket, then push it onto the stack
+- If the token is a closing parenthesis
+- - While the token on the top of the stack is not an opening brackets
+- - - Push the operator from the stack to the output
+- - Pop the opening bracket from the stack, but don't add it to the output
+
+### Evaluator
+Evaluate RPN by alternately pushing operands and operators onto the stack until a single number remains on the stack - the answer
+
+### Calculator
+Combines three classes into one
+
+## Set up and Run
+```zsh
+#clone a repository
+git clone <repository-url>
+cd lab1_calculator
+
+#install dependencies
+uv sync
+
+#Run a programm
 python -m src.main
-pytest -q
+
+#Run tests
+pytest -q # run all
+
+pytest tests/test_shunting_yard.py # run a single test
 ```
 
 ## Assumptions

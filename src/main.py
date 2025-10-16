@@ -1,4 +1,5 @@
-from calculator import Calculator, ParsingError
+from calculator_functions.calculator import Calculator
+from calculator_functions.errors import ParsingError
 
 def main():
     calculator = Calculator()
