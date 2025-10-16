@@ -16,11 +16,11 @@ from calculator_functions.errors import ParsingError
         pytest.param(['$', 5, '+', 1], [5, '$', 1, '+']),
     ]
 )
-def test_shunting_yard_success(infix_values, expected_rpn_values):
+def test_shunting_yard_success(values, expected_values):
     algorithm = ShunringYardAlgorithm()
-    tokens = [Token(v, i) for i, v in enumerate(infix_values)]
+    tokens = [Token(v, i) for i, v in enumerate(values)]
     rpn = algorithm.shunting_yard(tokens)
-    assert [t.value for t in rpn] == expected_rpn_values
+    assert [t.value for t in rpn] == expected_values
 
 @pytest.mark.parametrize(
     ("infix_values", "expected_str"),
@@ -30,9 +30,9 @@ def test_shunting_yard_success(infix_values, expected_rpn_values):
         pytest.param([1, '&', 2], "Unknown operator error: & at position 1"),
     ]
 )
-def test_shunting_yard_errors(infix_values, expected_str):
+def test_shunting_yard_errors(values, expected):
     algorithm = ShunringYardAlgorithm()
-    tokens = [Token(v, i) for i, v in enumerate(infix_values)]
+    tokens = [Token(v, i) for i, v in enumerate(values)]
     with pytest.raises(ParsingError) as e_info:
         algorithm.shunting_yard(tokens)
-    assert str(e_info.value) == expected_str
+    assert str(e_info.value) == expected

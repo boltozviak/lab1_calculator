@@ -3,7 +3,6 @@ from calculator_functions.calculator import Calculator
 from calculator_functions.calculator import ParsingError
 
 
-
 @pytest.mark.parametrize(
     ('input', 'expected_result'),
     (
@@ -37,6 +36,7 @@ from calculator_functions.calculator import ParsingError
 def test_calculate_func(input, expected_result):
     calculator = Calculator()
     assert calculator.calculate(input) == expected_result
+
 
 @pytest.mark.parametrize(
     ('expression', 'expected_exception'),

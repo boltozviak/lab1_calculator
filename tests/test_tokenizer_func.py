@@ -32,8 +32,8 @@ def test_tokenizer_success(expression, expected):
         pytest.param("1&2", "Unknown symbol error: & at position 1"),
     ]
 )
-def test_tokenizer_errors(expression, expected_str):
+def test_tokenizer_errors(expression, expected):
     tokenizer = Tokenizer()
     with pytest.raises(ParsingError) as e_info:
         tokenizer.parser(expression)
-    assert str(e_info.value) == expected_str
+    assert str(e_info.value) == expected
