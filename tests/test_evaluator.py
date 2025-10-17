@@ -6,14 +6,14 @@ from calculator_functions.errors import ParsingError
 @pytest.mark.parametrize(
     ("rpn_values", "expected"),
     [
-        pytest.param([2, 2, '+'], 4),
-        pytest.param([3, 1, '*', 20, '+'], 23),
-        pytest.param([2, 2, '+', 2, '*'], 8),
+        pytest.param([2, 10, '+'], 12),
+        pytest.param([3, 3, '*', 20, '+'], 29),
+        pytest.param([2, 10, '+', 2, '*'], 24),
         pytest.param([2, 3, 2, '**', '**'], 512),
         pytest.param([5, '~', 10, '+'], 5),
         pytest.param([5, '$', 1, '+'], 6),
         pytest.param([4, 2, '/'], 2.0),
-        pytest.param([7, 2, '/'], 3.5),
+        pytest.param([15, 2, '/'], 7.5),
         pytest.param([10, 3, '%'], 1),
         pytest.param([10, 3, '//'], 3),
     ]
@@ -30,7 +30,8 @@ def test_evaluator_success(rpn_values, expected):
         pytest.param(['~'], ParsingError, "Not enough operands for a unary operator"),
         pytest.param(['+'], ParsingError, "Not enough operands for a binary operator"),
         pytest.param([2, '+'], ParsingError, "Not enough operands for a binary operator"),
-        pytest.param([1, 2], ParsingError, "Too many operands"),
+        pytest.param(['+', 10], ParsingError, "Not enough operands for a binary operator"),
+        pytest.param([5, 5], ParsingError, "Too many operands"),
     ]
 )
 def test_evaluator_parsing_exceptions(rpn_values, expected_exception, expected):
