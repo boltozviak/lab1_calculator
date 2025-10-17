@@ -32,7 +32,7 @@ class Calculator:
         """
 
         try:
-            tokens = self.tokenizer.parser(expression)
+            tokens = self.tokenizer.parse_tokens(expression)
             if not tokens:
                 raise ParsingError("Empty expression", 0, 'Invalid expression')
 

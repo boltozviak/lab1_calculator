@@ -1,9 +1,16 @@
-from .tokens import Token
 from .errors import ParsingError
-from .constants import OPERATORS, MAX_LENGTH_OF_NUMBER, CHARS_OF_OPERATOR
+from .operators import OPERATORS, MAX_LENGTH_OF_NUMBER, CHARS_OF_OPERATOR
+
+from typing import Any
+
+class Token:
+    def __init__(self, value: Any, position: int):
+        self.value = value
+        self.position = position
+
 
 class Tokenizer:
-    def parser(self, expression: str) -> list[Token]:
+    def parse_tokens(self, expression: str) -> list[Token]:
             """
             Tokenizes an infix expression into a list of tokens
 

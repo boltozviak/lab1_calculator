@@ -1,6 +1,6 @@
-from .tokens import Token
+from .tokenizer import Token
 from .errors import ParsingError
-from .constants import BINARY_OPERATORS, UNARY_OPERATORS
+from .operators import BINARY_OPERATORS, UNARY_OPERATORS
 
 class EvaluatorRPN:
     def evaluate_of_rpn(self, rpn: list[Token]) -> int | float:

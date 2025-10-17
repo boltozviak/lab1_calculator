@@ -18,12 +18,12 @@ from calculator_functions.errors import ParsingError
 )
 def test_tokenizer_success(expression, expected):
     tokenizer = Tokenizer()
-    tokens = tokenizer.parser(expression)
+    tokens = tokenizer.parse_tokens(expression)
     as_pairs = [(tok.value, tok.position) for tok in tokens]
     assert as_pairs == expected
 
 @pytest.mark.parametrize(
-    ("expression", "expected_str"),
+    ("expression", "expected"),
     [
         pytest.param("2.", "Invalid number format error: Invalid number format at position 1"),
         pytest.param("2..2", "Invalid number format error: Invalid number format at position 1"),
@@ -32,8 +32,8 @@ def test_tokenizer_success(expression, expected):
         pytest.param("1&2", "Unknown symbol error: & at position 1"),
     ]
 )
-def test_tokenizer_errors(expression, expected):
+def test_tokenizer_exceptions(expression, expected):
     tokenizer = Tokenizer()
     with pytest.raises(ParsingError) as e_info:
-        tokenizer.parser(expression)
+        tokenizer.parse_tokens(expression)
     assert str(e_info.value) == expected
